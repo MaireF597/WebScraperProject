@@ -1,0 +1,22 @@
+from bs4 import BeautifulSoup
+import requests
+import re
+
+website = 'https://www.wikipedia.org/wiki/'
+search = 'Fourth_Wing'
+result = requests.get(website+search)
+content = result.text #got the content of the website here
+
+
+soup = BeautifulSoup(content, 'lxml') #uparse with BeautifulSoup class
+
+box = soup.find('h2')
+
+print(box.find_next_siblings('p'))
+
+
+
+      
+      
+
+
