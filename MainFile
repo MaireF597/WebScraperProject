@@ -3,16 +3,25 @@ import requests
 import re
 
 website = 'https://www.wikipedia.org/wiki/'
-search = 'Fourth_Wing'
+search = 'The_Very_Hungry_Caterpillar'
 result = requests.get(website+search)
 content = result.text #got the content of the website here
 
 
 soup = BeautifulSoup(content, 'lxml') #uparse with BeautifulSoup class
 
-box = soup.find('h2')
+box1 = soup.find("span",id="Synopsis")
+print(box1)
+for sib in box1.next_siblings:
+    print(sib.text)
+    if sib.name==('p'):
+        print(sib.text)
 
-print(box.find_next_siblings('p'))
+
+#box = soup.find('h2')
+#small = soup.find("span", title=re.compile("Synopsis")).text
+#print(small)
+#print(box.find_next_siblings('p'))
 
 
 
