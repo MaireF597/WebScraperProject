@@ -9,13 +9,34 @@ content = result.text #got the content of the website here
 
 
 soup = BeautifulSoup(content, 'lxml') #uparse with BeautifulSoup class
+#print(soup.text)
+
+
+
 
 box1 = soup.find("span",id="Synopsis")
-print(box1)
-for sib in box1.next_siblings:
-    print(sib.text)
-    if sib.name==('p'):
-        print(sib.text)
+#print(box1.text)
+
+box2 = soup.find("div",id="mw-content-text")
+print(box2.text)
+paras=""
+for pText in box2.find_all('p'):
+    paras += pText.text
+print (paras)
+
+# print("->")
+# print(box1)
+# for j in soup.select(''):
+#     for i in (j.fetchNextSiblings()):
+#             if i.name == 'p':
+#                 print(i)
+
+
+
+#for sib in soup.find_all('h2'):
+#    synopsisText = (sib.find_next_sibling('p')).text 
+ #   print(synopsisText)
+    
 
 
 #box = soup.find('h2')
