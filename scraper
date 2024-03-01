@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 
 
-def webScraper(search):
+def ScraperFunc(search):
     website = 'https://www.wikipedia.org/wiki/'
     #search = 'The_Very_Hungry_Caterpillar'
     search.replace(' ', '_')

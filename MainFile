@@ -2,9 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import sys
 from argparse import ArgumentParser, Namespace
-from WebScraper import *
-
-
+from webScraper import *
 
 #Makes parser so that custom arguments can be added
 parser = ArgumentParser()
@@ -18,4 +16,4 @@ args: Namespace = parser.parse_args()
 if args.search == None:
     args.choice = "The Very Hungry Caterpillar"
 
-ScraperFunc(args.search)
+scraper(args.search)
