@@ -1,52 +1,21 @@
 from bs4 import BeautifulSoup
 import requests
-import re
-
-website = 'https://www.wikipedia.org/wiki/'
-search = 'The_Very_Hungry_Caterpillar'
-result = requests.get(website+search)
-content = result.text #got the content of the website here
-
-
-soup = BeautifulSoup(content, 'lxml') #uparse with BeautifulSoup class
-#print(soup.text)
+import sys
+from argparse import ArgumentParser, Namespace
+from WebScraper import *
 
 
 
+#Makes parser so that custom arguments can be added
+parser = ArgumentParser()
+#Custom arguments initialized
+parser.add_argument('--search', type=str, help='str: Type in what book you want the synopsis and context for, capitalize the first letter of each word')
 
-box1 = soup.find("span",id="Synopsis")
-#print(box1.text)
+#Determines what the arguments are from the terminal and convert them to the appropriate type
+args: Namespace = parser.parse_args() 
 
-box2 = soup.find("div",id="mw-content-text")
-print(box2.text)
-paras=""
-for pText in box2.find_all('p'):
-    paras += pText.text
-print (paras)
+#Sets default cracker choice to Dictionary attack if the user does not pick one
+if args.search == None:
+    args.choice = "The Very Hungry Caterpillar"
 
-# print("->")
-# print(box1)
-# for j in soup.select(''):
-#     for i in (j.fetchNextSiblings()):
-#             if i.name == 'p':
-#                 print(i)
-
-
-
-#for sib in soup.find_all('h2'):
-#    synopsisText = (sib.find_next_sibling('p')).text 
- #   print(synopsisText)
-    
-
-
-#box = soup.find('h2')
-#small = soup.find("span", title=re.compile("Synopsis")).text
-#print(small)
-#print(box.find_next_siblings('p'))
-
-
-
-      
-      
-
-
+ScraperFunc(args.search)
