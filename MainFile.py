@@ -4,6 +4,7 @@ import sys
 from argparse import ArgumentParser, Namespace
 from webScraper import *
 
+
 #Makes parser so that custom arguments can be added
 parser = ArgumentParser()
 #Custom arguments initialized
@@ -16,4 +17,4 @@ args: Namespace = parser.parse_args()
 if args.search == None:
     args.choice = "The Very Hungry Caterpillar"
 
-scraper(args.search)
+webScraper(args.search)
