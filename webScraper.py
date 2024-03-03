@@ -2,32 +2,35 @@ from bs4 import BeautifulSoup
 import requests
 
 
-def webScraper(search):
+def webScraper(type, search):
     website = 'https://www.wikipedia.org/wiki/'
     #search = 'The_Very_Hungry_Caterpillar'
-    search.replace(' ', '_')
     result = requests.get(website+search)
     content = result.text #got the content of the website here
 
     soup = BeautifulSoup(content, 'lxml') #uparse with BeautifulSoup class
 
-    paras = []
+    
     #Find the line with Synopsis that's labeled as span in the website content (soup)
-    heading = soup.find("span",id="Synopsis")
-
-    if heading:
-        synopsisSec = heading.find_next('p')
-        while synopsisSec and synopsisSec.name != "h2":
-            if synopsisSec.name == 'p':
-                paras.append(synopsisSec.text.strip())
-            synopsisSec = synopsisSec.find_next('p')
-
-    for p in paras:
-        print(p)
-        if synopsisSec and synopsisSec.name == "h2":
-            break
+    if type == "movie":
+        heading = soup.find("span",id="Plot")
     else:
-        return ("No Synopsis Found")
+         heading = soup.find("span",id="Synopsis")
+    
+   
+    if heading !=None:
+        headingParent = heading.findParent()
+        paras = []
+        for sib in headingParent.findNextSiblings():
+            if sib.name.startswith('h'):
+                break
+            else:
+                paras.append(sib.text.strip())
+
+        for p in paras:
+            print(p + '\n')
+    else:
+        print ("No information found for "+search.replace('_', ' '))
 
 
 
