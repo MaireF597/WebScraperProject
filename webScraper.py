@@ -4,62 +4,42 @@ import requests
 
 def webScraper(type, search):
     website = 'https://www.wikipedia.org/wiki/'
-    #search = 'The_Very_Hungry_Caterpillar'
     result = requests.get(website+search)
-    content = result.text #got the content of the website here
-
-    soup = BeautifulSoup(content, 'lxml') #uparse with BeautifulSoup class
-
+    content = result.text #grabs the content of the website here
     
-    #Find the line with Synopsis that's labeled as span in the website content (soup)
+    soup = BeautifulSoup(content, 'lxml') #parses the content with BeautifulSoup class to make it a beautiful soup object
+    
+    
+    #Depending on type argument, finds the line labeled as Plot or Synopsis
     if type == "movie":
         heading = soup.find("span",id="Plot")
+        t = "Plot"
     else:
          heading = soup.find("span",id="Synopsis")
+         t = "Synopsis"
     
-   
+    #Cycles through the website, specifically below the Plot or Synopsis header and returns only the text below the header, halting once a new header is encountered
     if heading !=None:
+        #gets parent tag of the heading so that it can search for specific text
         headingParent = heading.findParent()
+        #Holds the paragraphs with the text being pulled
         paras = []
+        #Cycles through website by finding next node or sibling under the parent
         for sib in headingParent.findNextSiblings():
             if sib.name.startswith('h'):
                 break
             else:
                 paras.append(sib.text.strip())
 
+        print(t + " for " + search.replace('_', ' ') +":\n")
         for p in paras:
             print(p + '\n')
     else:
+        #Prints out if no Synopsis/Plot section is found on the webpage
         print ("No information found for "+search.replace('_', ' '))
 
 
 
-# box2 = soup.find("div",id="mw-content-text")
-# print(box2.text)
-# paras=""
-# for pText in box2.find_all('p'):
-#     paras += pText.text
-# print (paras)
-
-# print("->")
-# print(box1)
-# for j in soup.select(''):
-#     for i in (j.fetchNextSiblings()):
-#             if i.name == 'p':
-#                 print(i)
-
-
-
-#for sib in soup.find_all('h2'):
-#    synopsisText = (sib.find_next_sibling('p')).text 
- #   print(synopsisText)
-    
-
-
-#box = soup.find('h2')
-#small = soup.find("span", title=re.compile("Synopsis")).text
-#print(small)
-#print(box.find_next_siblings('p'))
 
 
 
