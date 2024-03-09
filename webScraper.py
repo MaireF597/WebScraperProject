@@ -4,12 +4,12 @@ import requests
 
 def webScraper(type, search):
     website = 'https://www.wikipedia.org/wiki/'
-    result = requests.get(website+search)
+    result = requests.get(website+search.replace(" ", "_"))
     content = result.text #grabs the content of the website here
     
     soup = BeautifulSoup(content, 'lxml') #parses the content with BeautifulSoup class to make it a beautiful soup object
     
-    
+     
     #Depending on type argument, finds the line labeled as Plot or Synopsis
     if type == "movie":
         heading = soup.find("span",id="Plot")
